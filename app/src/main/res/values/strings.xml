@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">DepEat</string>
+    <string name="email_hint">Insert Email</string>
+    <string name="passwd_hint">Insert password</string>
+    <string name="login_text">Login</string>
+    <string name="sign_in_text">Sign In</string>
+    <string name="invalid_email">Insert a valid email</string>
+    <string name="invalid_password">Insert a valid password</string>
+    <string name="login_succeded">Login successful</string>
+    <string name="phone_hint">Insert your phone number</string>
+    <string name="checkout">Checkout</string>
+</resources>
