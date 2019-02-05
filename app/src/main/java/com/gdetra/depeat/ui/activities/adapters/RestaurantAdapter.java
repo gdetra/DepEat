@@ -1,12 +1,15 @@
 package com.gdetra.depeat.ui.activities.adapters;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.models.Restaurant;
@@ -46,13 +49,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     }
 
 
-    class RestaurantViewHolder extends RecyclerView.ViewHolder{
+    class RestaurantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private CardView restaurantCv;
         private ImageView restaurantAvatar;
         private TextView restaurantName;
         private TextView restaurantDescription;
 
         public RestaurantViewHolder(@NonNull View itemView) {
             super(itemView);
+            restaurantCv = itemView.findViewById(R.id.restaurant_cv);
+            restaurantCv.setOnClickListener(this);
             restaurantAvatar = itemView.findViewById(R.id.avatar_restaurant);
             restaurantName = itemView.findViewById(R.id.restaurant_name);
             restaurantDescription = itemView.findViewById(R.id.restaurant_description);
@@ -62,6 +68,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             restaurantAvatar.setBackgroundResource(item.getImage());
             restaurantName.setText(item.getName());
             restaurantDescription.setText(item.getDescription());
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(restaurantList.get(getAdapterPosition()) != null){
+                Log.i("Position", String.valueOf(getAdapterPosition()));
+            }
         }
     }
 }
