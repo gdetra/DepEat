@@ -1,5 +1,7 @@
 package com.gdetra.depeat.ui.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.gdetra.depeat.R;
+import com.gdetra.depeat.Utils;
 import com.gdetra.depeat.models.Restaurant;
 import com.gdetra.depeat.ui.activities.adapters.RestaurantAdapter;
 
@@ -24,6 +27,7 @@ public class ShopActivity extends AppCompatActivity {
     boolean isGridLayoutSelected;
     RestaurantAdapter restaurantAdapter;
     RecyclerView.LayoutManager layoutManager;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +49,17 @@ public class ShopActivity extends AppCompatActivity {
                 new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
                 new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant")
         ));
-        restaurantAdapter = new RestaurantAdapter(listRestaurants, isGridLayoutSelected);
-        layoutManager = new LinearLayoutManager(this);
-        restaurantsRV = findViewById(R.id.restaurants_rv);
-        restaurantsRV.setAdapter(restaurantAdapter);
-        restaurantsRV.setLayoutManager(layoutManager);
+        prefs = getSharedPreferences(Utils.PACKAGE_NAME, Context.MODE_PRIVATE);
+        if(prefs != null){
+            isGridLayoutSelected = prefs.getBoolean(Utils.IS_GRID_LAYOUT_SELECTED, false);
+            if(isGridLayoutSelected){
+                setSavedLayout(new GridLayoutManager(this, 2), isGridLayoutSelected);
+            }else{
+                setSavedLayout(new LinearLayoutManager(this), isGridLayoutSelected);
+            }
+        }else{
+            setSavedLayout(new LinearLayoutManager(this), isGridLayoutSelected);
+        }
     }
 
     @Override
@@ -71,12 +81,21 @@ public class ShopActivity extends AppCompatActivity {
 
     }
 
-    private void changeItemsLayout(MenuItem item, RecyclerView.LayoutManager layoutManager, boolean isGridLayoutSelected, @DrawableRes int resId){
+    private void changeItemsLayout(MenuItem item, RecyclerView.LayoutManager layoutManager, boolean isGridLayoutSelected, @DrawableRes int resId) {
         this.layoutManager = layoutManager;
         restaurantsRV.setLayoutManager(layoutManager);
         this.isGridLayoutSelected = isGridLayoutSelected;
+        prefs.edit().putBoolean(Utils.IS_GRID_LAYOUT_SELECTED, this.isGridLayoutSelected).apply();
         restaurantAdapter = new RestaurantAdapter(listRestaurants, this.isGridLayoutSelected);
         restaurantsRV.setAdapter(restaurantAdapter);
         item.setIcon(resId);
+    }
+
+    private void setSavedLayout(RecyclerView.LayoutManager layoutManager, boolean isGridLayoutSelected) {
+        restaurantAdapter = new RestaurantAdapter(listRestaurants, isGridLayoutSelected);
+        this.layoutManager = layoutManager;
+        restaurantsRV = findViewById(R.id.restaurants_rv);
+        restaurantsRV.setAdapter(restaurantAdapter);
+        restaurantsRV.setLayoutManager(layoutManager);
     }
 }

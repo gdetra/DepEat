@@ -4,6 +4,8 @@ import android.telephony.PhoneNumberUtils;
 
 public class Utils {
     public static final int MAX_LENGTH_PASSWORD = 6;
+    public static final String PACKAGE_NAME = "com.gdetra.depeat";
+    public static final String IS_GRID_LAYOUT_SELECTED = "isGridLayoutSelectedKey";
 
 
     public static boolean isValidEmail(String email){
