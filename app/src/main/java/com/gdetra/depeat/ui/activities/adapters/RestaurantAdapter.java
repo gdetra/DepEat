@@ -1,5 +1,8 @@
 package com.gdetra.depeat.ui.activities.adapters;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.models.Restaurant;
+import com.gdetra.depeat.ui.activities.ShopActivity;
 
 import java.util.List;
 
@@ -73,6 +77,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         @Override
         public void onClick(View v) {
             if(restaurantList.get(getAdapterPosition()) != null){
+                Intent intent = new Intent(v.getContext(), ShopActivity.class);
+                v.getContext().startActivity(intent);
                 Log.i("Position", String.valueOf(getAdapterPosition()));
             }
         }

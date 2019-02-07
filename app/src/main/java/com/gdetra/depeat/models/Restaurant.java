@@ -7,8 +7,9 @@ public class Restaurant {
     @DrawableRes
     private int image;
     private String description;
+    private float minImport;
 
-    public Restaurant(String name,@DrawableRes int image, String description) {
+    public Restaurant(String name, @DrawableRes int image, String description) {
         this.name = name;
         this.image = image;
         this.description = description;
@@ -37,5 +38,13 @@ public class Restaurant {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public float getMinImport() {
+        return minImport;
+    }
+
+    public void setMinImport(float minImport) {
+        this.minImport = minImport;
     }
 }

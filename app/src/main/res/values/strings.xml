@@ -9,4 +9,7 @@
     <string name="login_succeded">Login successful</string>
     <string name="phone_hint">Insert your phone number</string>
     <string name="checkout">Checkout</string>
+    <string name="plus_btn">+</string>
+    <string name="minus_btn">-</string>
+    <string name="price">price_tv</string>
 </resources>
