@@ -10,14 +10,15 @@
         android:layout_height="wrap_content"
         android:elevation="4dp"
         android:orientation="horizontal"
-        android:background="@color/colorPrimary">
+        android:background="@color/whiteSmoke">
 
         <ImageView
             android:id="@+id/restaurant_icon"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:padding="10dp"
-            />
+            android:src="@drawable/ic_launcher_foreground"
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,7 +43,7 @@
                 android:gravity="start"
                 android:paddingTop="5dp"
                 android:paddingStart="20dp"
-                tools:text="Panucci"
+                android:text="A little description of Panucci"
                 android:maxLines="3"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -74,14 +75,32 @@
             android:layout_above="@id/progress"
             android:orientation="horizontal"
             android:layout_alignParentStart="true"
-            android:weightSum="2">
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/total_fixed_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/total_fixed_text"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:gravity="center"/>
 
             <TextView
                 android:id="@+id/total_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="Total: 10,00 €"
+                tools:text="10,00 €"
                 android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:gravity="left|center"/>
+
+            <TextView
+                android:id="@+id/min_order_fixed_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/min_order_fixed_text"
                 android:paddingLeft="10dp"
                 android:gravity="center"/>
 
@@ -89,20 +108,19 @@
                 android:id="@+id/min_order_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                tools:text="10,00 €"
                 android:layout_weight="1"
-                android:text="Min. Order: 20,00 €"
                 android:paddingLeft="10dp"
-                android:gravity="center"/>
+                android:gravity="left|center"/>
         </LinearLayout>
 
 
         <ProgressBar
             android:id="@+id/progress"
-            style="@android:style/Widget.ProgressBar.Horizontal"
+            style="@android:style/Widget.Material.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_above="@id/checkout_btn"
-
             android:padding="8dp" />
 
         <Button
@@ -113,7 +131,8 @@
             android:layout_alignParentBottom="true"
             android:background="@color/whiteSmoke"
             android:foreground="?attr/selectableItemBackground"
-            android:text="@string/checkout" />
+            android:text="@string/checkout"
+            android:enabled="false"/>
 
     </RelativeLayout>
 

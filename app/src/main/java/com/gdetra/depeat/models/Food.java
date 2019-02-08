@@ -37,9 +37,18 @@ public class Food {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void increaseQuantity(){
+        this.quantity++;
     }
+
+    public void decreaseQuantity(){
+        if(quantity > 0) {
+            this.quantity--;
+        }
+    }
+    //public void setQuantity(int quantity) {
+    //    this.quantity = quantity;
+    //}
 
     @DrawableRes
     public int getFoodIdRes() {

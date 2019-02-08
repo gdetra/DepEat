@@ -11,5 +11,8 @@
     <string name="checkout">Checkout</string>
     <string name="plus_btn">+</string>
     <string name="minus_btn">-</string>
-    <string name="price">price_tv</string>
+    <string name="price_fixed_text">Price :</string>
+    <string name="total_fixed_text">Total :</string>
+    <string name="min_order_fixed_text">Min. order :</string>
+    <string name="euro">€</string>
 </resources>

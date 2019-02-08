@@ -36,20 +36,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listRestaurants = new ArrayList<>(Arrays.asList(
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant"),
-                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant")
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
+                new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F)
         ));
         prefs = getSharedPreferences(Utils.PACKAGE_NAME, Context.MODE_PRIVATE);
         if(prefs != null){

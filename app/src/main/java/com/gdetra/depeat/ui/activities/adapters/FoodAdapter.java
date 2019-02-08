@@ -2,6 +2,7 @@ package com.gdetra.depeat.ui.activities.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,12 @@ import android.widget.TextView;
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.models.Food;
 
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
     private List<Food> listFood;
+    private OnQuantityChangedListener onQuantityChangedListener;
 
     public FoodAdapter(List<Food> listFood){
         this.listFood = listFood;
@@ -40,6 +41,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         return listFood != null ? listFood.size() : 0;
     }
 
+    public OnQuantityChangedListener getOnQuantityChangedListener() {
+        return onQuantityChangedListener;
+    }
+
+    public void setOnQuantityChangedListener(OnQuantityChangedListener onQuantityChangedListener) {
+        this.onQuantityChangedListener = onQuantityChangedListener;
+    }
+
     public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView foodIv;
         private TextView foodTv;
@@ -47,6 +56,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         private Button plusBtn;
         private Button minusBtn;
         private TextView quantityTv;
+
 
         public FoodViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,30 +70,40 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             plusBtn.setOnClickListener(this);
             minusBtn.setOnClickListener(this);
 
+
+            Log.i("adapter", String.valueOf(getAdapterPosition()));
+
         }
 
         public void bind(Food item){
             foodIv.setBackgroundResource(R.drawable.ic_launcher_background);
             foodTv.setText(item.getName());
-            StringBuilder sb = new StringBuilder();
-            sb.append("Price : ");
-            sb.append(item.getPrice());
-            foodPrice.setText(sb.toString());
-            quantityTv.setText(String.valueOf(0));
+            foodPrice.setText(String.valueOf(item.getPrice()));
+            quantityTv.setText(String.valueOf(item.getQuantity()));
         }
 
         @Override
         public void onClick(View v) {
-            int quantity = Integer.parseInt(quantityTv.getText().toString());
+            Food product = listFood.get(getAdapterPosition());
             if(v.getId() == R.id.plus_btn){
-                quantity++;
-                quantityTv.setText(String.valueOf(quantity));
+
+                product.increaseQuantity();
+                onQuantityChangedListener.onChange(product.getPrice());
+
             }else if(v.getId() == R.id.minus_btn){
-                if(quantity > 0) {
-                    quantity--;
-                    quantityTv.setText(String.valueOf(quantity));
+
+                if (product.getQuantity() > 0) {
+                    product.decreaseQuantity();
+                    onQuantityChangedListener.onChange(product.getPrice() * -1);
                 }
             }
+
+            notifyItemChanged(getAdapterPosition());
         }
+
+    }
+
+    public interface OnQuantityChangedListener{
+        void onChange(double price);
     }
 }

@@ -2,17 +2,21 @@ package com.gdetra.depeat.models;
 
 import android.support.annotation.DrawableRes;
 
+import java.util.List;
+
 public class Restaurant {
     private String name;
     @DrawableRes
     private int image;
     private String description;
     private float minImport;
+    private List<Food> products;
 
-    public Restaurant(String name, @DrawableRes int image, String description) {
+    public Restaurant(String name, @DrawableRes int image, String description, float minImport) {
         this.name = name;
         this.image = image;
         this.description = description;
+        this.minImport = minImport;
     }
 
 
@@ -46,5 +50,13 @@ public class Restaurant {
 
     public void setMinImport(float minImport) {
         this.minImport = minImport;
+    }
+
+    public List<Food> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Food> products) {
+        this.products = products;
     }
 }
