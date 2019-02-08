@@ -3,6 +3,7 @@ package com.gdetra.depeat.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -54,18 +55,7 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
         minOrderTv.setText(String.valueOf(restaurant.getMinImport()) + getString(R.string.euro));
         restaurantNameTv.setText(restaurant.getName());
         restaurantDescriptionTv.setText(restaurant.getDescription());
-        foodAdapter = new FoodAdapter(new ArrayList<>(Arrays.asList(
-                new Food("Food name", 1.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background)
-        )));
+        foodAdapter = new FoodAdapter(restaurant);
         foodAdapter.setOnQuantityChangedListener(this);
         ((SimpleItemAnimator) foodRv.getItemAnimator()).setSupportsChangeAnimations(false);
         foodRv.setAdapter(foodAdapter);

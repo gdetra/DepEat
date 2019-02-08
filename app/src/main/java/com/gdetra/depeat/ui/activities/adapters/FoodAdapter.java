@@ -12,16 +12,19 @@ import android.widget.TextView;
 
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.models.Food;
+import com.gdetra.depeat.models.Restaurant;
 
 
 import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
+    private Restaurant restaurant;
     private List<Food> listFood;
     private OnQuantityChangedListener onQuantityChangedListener;
 
-    public FoodAdapter(List<Food> listFood){
-        this.listFood = listFood;
+    public FoodAdapter(Restaurant restaurant){
+        this.restaurant = restaurant;
+        this.listFood = this.restaurant.getProducts();
     }
 
     @NonNull
@@ -78,7 +81,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         public void bind(Food item){
             foodIv.setBackgroundResource(R.drawable.ic_launcher_background);
             foodTv.setText(item.getName());
-            foodPrice.setText(String.valueOf(item.getPrice()));
+            foodPrice.setText(String.valueOf(item.getPrice())+ "€");
             quantityTv.setText(String.valueOf(item.getQuantity()));
         }
 

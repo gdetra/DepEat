@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     RestaurantAdapter restaurantAdapter;
     RecyclerView.LayoutManager layoutManager;
     SharedPreferences prefs;
+
+    static {
+        AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_YES);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (isGridLayoutSelected) {
-            changeItemsLayout(item, new LinearLayoutManager(this), false, R.drawable.ic_apps_black_24dp);
+            changeItemsLayout(item, new LinearLayoutManager(this), false, R.drawable.ic_apps_white_24dp);
             return true;
         } else {
-            changeItemsLayout(item, new GridLayoutManager(this, 2), true, R.drawable.ic_format_list_bulleted_black_24dp);
+            changeItemsLayout(item, new GridLayoutManager(this, 2), true, R.drawable.ic_list_white_24dp);
             return true;
         }
 

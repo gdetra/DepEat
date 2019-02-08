@@ -2,6 +2,10 @@ package com.gdetra.depeat.models;
 
 import android.support.annotation.DrawableRes;
 
+import com.gdetra.depeat.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Restaurant {
@@ -17,6 +21,7 @@ public class Restaurant {
         this.image = image;
         this.description = description;
         this.minImport = minImport;
+        getData();
     }
 
 
@@ -58,5 +63,20 @@ public class Restaurant {
 
     public void setProducts(List<Food> products) {
         this.products = products;
+    }
+
+    private void getData(){
+        setProducts(new ArrayList<>(Arrays.asList(
+                new Food("Food name", 1.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background)
+        )));
     }
 }
