@@ -15,4 +15,13 @@
     <string name="total_fixed_text">Total :</string>
     <string name="min_order_fixed_text">Min. order :</string>
     <string name="euro">€</string>
+    <string name="pay">Pay</string>
+    <string name="delete">Delete</string>
+    <string name="food_name_fixed">Food name</string>
+    <string name="food_quantity_fixed">Qta</string>
+    <string name="amount_fixed">Amount</string>
+    <string name="confirm_title">Confirm</string>
+    <string name="confirm_question">Are you sure that you want to delete this item?</string>
+    <string name="positive_text">Yes</string>
+    <string name="nagative_text">No</string>
 </resources>

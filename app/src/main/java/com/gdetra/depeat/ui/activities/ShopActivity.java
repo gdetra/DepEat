@@ -10,6 +10,7 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQuantityChangedListener {
+public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQuantityChangedListener, View.OnClickListener {
     RecyclerView foodRv;
     FoodAdapter foodAdapter;
     Restaurant restaurant;
@@ -49,6 +50,7 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
         totalTv = findViewById(R.id.total_tv);
         minOrderTv = findViewById(R.id.min_order_tv);
         checkOutBtn = findViewById(R.id.checkout_btn);
+        checkOutBtn.setOnClickListener(this);
         restaurant = new Restaurant("Panucci", R.drawable.ic_launcher_background, "A little description of Panucci", 3.0F);
         progressBar.setMax((int)restaurant.getMinImport()*100);
         totalTv.setText(String.valueOf(total) + getString(R.string.euro));
@@ -108,5 +110,11 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
     }
 
 
-
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.checkout_btn){
+            Intent intent = new Intent(this, CheckoutActivity.class);
+            startActivity(intent);
+        }
+    }
 }

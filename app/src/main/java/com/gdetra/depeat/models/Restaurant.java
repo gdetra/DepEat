@@ -67,16 +67,16 @@ public class Restaurant {
 
     private void getData(){
         setProducts(new ArrayList<>(Arrays.asList(
-                new Food("Food name", 1.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0, 0, R.drawable.ic_launcher_background)
+                new Food("Food name", 4.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
+                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background)
         )));
     }
 }

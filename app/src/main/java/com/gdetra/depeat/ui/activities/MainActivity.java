@@ -18,6 +18,7 @@ import com.gdetra.depeat.R;
 import com.gdetra.depeat.Utils;
 import com.gdetra.depeat.models.Restaurant;
 import com.gdetra.depeat.ui.activities.adapters.RestaurantAdapter;
+import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
         listRestaurants = new ArrayList<>(Arrays.asList(
                 new Restaurant("Panucci", R.drawable.ic_launcher_background, "Panucci's restaurant", 3.0F),
@@ -106,7 +108,5 @@ public class MainActivity extends AppCompatActivity {
         restaurantsRV.setAdapter(restaurantAdapter);
         restaurantsRV.setLayoutManager(layoutManager);
     }
-
-
 }
 

@@ -4,13 +4,13 @@ import android.support.annotation.DrawableRes;
 
 public class Food {
     private String name;
-    private double price;
+    private float price;
     private int quantity;
     @DrawableRes
     private int foodIdRes;
 
 
-    public Food(String name, double price, int quantity,@DrawableRes int foodIdRes) {
+    public Food(String name, float price, int quantity,@DrawableRes int foodIdRes) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -25,11 +25,11 @@ public class Food {
         this.name = name;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

@@ -1,9 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.CheckoutActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/header"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textSize="30sp"
+            android:text="@string/checkout" />
+        <TextView
+            android:id="@+id/restaurant_name"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:textSize="25sp"
+            tools:text="Restaurant name" />
+        <TextView
+            android:id="@+id/restaurant_description"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:textSize="20sp"
+            tools:text="Restaurant description" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/information"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_below="@+id/header"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:text="@string/food_name_fixed"
+            android:gravity="start|center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/food_quantity_fixed"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/amount_fixed"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/checkout_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/information"
+        android:layout_above="@+id/total_linear">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/total_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/pay_btn">
+
+        <TextView
+            android:id="@+id/total_fixed_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:textSize="30sp"
+            android:text="@string/total_fixed_text"/>
+        <TextView
+            android:id="@+id/total"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:textSize="20sp" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/pay_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/pay"
+        android:textSize="20sp" />
+</RelativeLayout>
