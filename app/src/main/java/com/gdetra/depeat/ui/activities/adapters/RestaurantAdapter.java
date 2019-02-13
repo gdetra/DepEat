@@ -1,7 +1,9 @@
 package com.gdetra.depeat.ui.activities.adapters;
 
 
+
 import android.content.Intent;
+
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,15 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.models.Restaurant;
 import com.gdetra.depeat.ui.activities.ShopActivity;
-
 
 import java.util.List;
 
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
+
+
 
     private List<Restaurant> restaurantList;
     private boolean isGridLayoutSelected;
@@ -27,6 +32,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     public RestaurantAdapter(List<Restaurant> restaurantList, boolean isGridLayoutSelected){
         this.restaurantList = restaurantList;
         this.isGridLayoutSelected = isGridLayoutSelected;
+    }
+
+    public List<Restaurant> getRestaurantList() {
+        return restaurantList;
+    }
+
+    public void setRestaurantList(List<Restaurant> restaurantList) {
+        this.restaurantList = restaurantList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -68,9 +82,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         }
 
         public void bind(Restaurant item){
-            restaurantAvatar.setBackgroundResource(item.getImage());
+            Glide.with(itemView.getContext()).load(item.getUrlImage()).into(restaurantAvatar);
             restaurantName.setText(item.getName());
-            restaurantDescription.setText(item.getDescription());
+            restaurantDescription.setText(item.getAddress());
         }
 
         @Override

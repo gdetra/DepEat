@@ -1,20 +1,18 @@
 package com.gdetra.depeat.models;
 
-import android.support.annotation.DrawableRes;
 
 public class Food {
     private String name;
     private float price;
     private int quantity;
-    @DrawableRes
-    private int foodIdRes;
+    private String urlImage;
 
 
-    public Food(String name, float price, int quantity,@DrawableRes int foodIdRes) {
+    public Food(String name, float price, int quantity,String urlImage) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.foodIdRes = foodIdRes;
+        this.urlImage = urlImage;
     }
 
     public String getName() {
@@ -50,12 +48,11 @@ public class Food {
     //    this.quantity = quantity;
     //}
 
-    @DrawableRes
-    public int getFoodIdRes() {
-        return foodIdRes;
+    public String getUrlImage() {
+        return urlImage;
     }
 
-    public void setFoodIdRes(@DrawableRes int foodIdRes) {
-        this.foodIdRes = foodIdRes;
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 }

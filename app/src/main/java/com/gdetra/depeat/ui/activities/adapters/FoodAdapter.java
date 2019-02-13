@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.models.Food;
 import com.gdetra.depeat.models.Restaurant;
@@ -79,7 +80,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         }
 
         public void bind(Food item){
-            foodIv.setBackgroundResource(R.drawable.ic_launcher_background);
+            Glide.with(itemView.getContext()).load(item.getUrlImage()).into(foodIv);
             foodTv.setText(item.getName());
             foodPrice.setText(String.valueOf(item.getPrice())+ "€");
             quantityTv.setText(String.valueOf(item.getQuantity()));

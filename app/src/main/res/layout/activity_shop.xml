@@ -43,7 +43,7 @@
                 android:maxLines="3"
                 android:paddingStart="20dp"
                 android:paddingTop="5dp"
-                android:text="A little description of Panucci"
+                android:text="A little address of Panucci"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
