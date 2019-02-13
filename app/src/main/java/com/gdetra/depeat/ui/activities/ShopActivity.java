@@ -3,7 +3,6 @@ package com.gdetra.depeat.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -16,14 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gdetra.depeat.R;
-import com.gdetra.depeat.models.Food;
 import com.gdetra.depeat.models.Restaurant;
 import com.gdetra.depeat.ui.activities.adapters.FoodAdapter;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQuantityChangedListener, View.OnClickListener {
@@ -51,12 +44,12 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
         minOrderTv = findViewById(R.id.min_order_tv);
         checkOutBtn = findViewById(R.id.checkout_btn);
         checkOutBtn.setOnClickListener(this);
-        restaurant = new Restaurant("Panucci", R.drawable.ic_launcher_background, "A little description of Panucci", 3.0F);
+        restaurant = new Restaurant("Panucci","", "A little description of Panucci", 3.0F);
         progressBar.setMax((int)restaurant.getMinImport()*100);
         totalTv.setText(String.valueOf(total) + getString(R.string.euro));
         minOrderTv.setText(String.valueOf(restaurant.getMinImport()) + getString(R.string.euro));
         restaurantNameTv.setText(restaurant.getName());
-        restaurantDescriptionTv.setText(restaurant.getDescription());
+        restaurantDescriptionTv.setText(restaurant.getAddress());
         foodAdapter = new FoodAdapter(restaurant);
         foodAdapter.setOnQuantityChangedListener(this);
         ((SimpleItemAnimator) foodRv.getItemAnimator()).setSupportsChangeAnimations(false);

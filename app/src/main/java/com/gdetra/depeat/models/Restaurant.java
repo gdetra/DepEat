@@ -1,8 +1,7 @@
 package com.gdetra.depeat.models;
 
-import android.support.annotation.DrawableRes;
-
-import com.gdetra.depeat.R;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,18 +9,24 @@ import java.util.List;
 
 public class Restaurant {
     private String name;
-    @DrawableRes
-    private int image;
-    private String description;
+    private String urlImage;
+    private String address;
     private float minImport;
     private List<Food> products;
 
-    public Restaurant(String name, @DrawableRes int image, String description, float minImport) {
+    public Restaurant(String name, String urlImage, String address, float minImport) {
         this.name = name;
-        this.image = image;
-        this.description = description;
+        this.urlImage = urlImage;
+        this.address = address;
         this.minImport = minImport;
         getData();
+    }
+
+    public Restaurant(JSONObject jsonRestaurant) throws JSONException {
+        this.name = jsonRestaurant.getString("name");
+        this.address = jsonRestaurant.getString("address");
+        this.minImport = Float.parseFloat(jsonRestaurant.getString("min_order"));
+        this.urlImage = jsonRestaurant.getString("image_url");
     }
 
 
@@ -33,20 +38,20 @@ public class Restaurant {
         this.name = name;
     }
 
-    public int getImage() {
-        return image;
+    public String getUrlImage() {
+        return urlImage;
     }
 
-    public void setImage(@DrawableRes int image) {
-        this.image = image;
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public float getMinImport() {
@@ -67,16 +72,16 @@ public class Restaurant {
 
     private void getData(){
         setProducts(new ArrayList<>(Arrays.asList(
-                new Food("Food name", 4.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background),
-                new Food("Food name", 3.0F, 0, R.drawable.ic_launcher_background)
+                new Food("Food name", 4.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, ""),
+                new Food("Food name", 3.0F, 0, "")
         )));
     }
 }

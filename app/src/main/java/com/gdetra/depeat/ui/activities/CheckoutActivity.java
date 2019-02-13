@@ -35,15 +35,15 @@ public class CheckoutActivity extends AppCompatActivity implements OrderAdapter.
         checkoutRv = findViewById(R.id.checkout_rv);
         payBtn = findViewById(R.id.pay_btn);
         total = findViewById(R.id.total);
-        order = new Order(new Restaurant("Panucci", R.drawable.ic_launcher_background, "A little description of Panucci", 3.0F),
+        order = new Order(new Restaurant("Panucci", "", "A little description of Panucci", 3.0F),
                 new ArrayList<>(Arrays.asList(
-                        new Food("Pizza", 4.0F, 3, R.drawable.ic_launcher_background),
-                        new Food("Pasta", 3.0F, 5, R.drawable.ic_launcher_background),
-                        new Food("Noodles", 3.0F, 1, R.drawable.ic_launcher_background),
-                        new Food("Sushi", 1.0F, 1, R.drawable.ic_launcher_background)
+                        new Food("Pizza", 4.0F, 3, ""),
+                        new Food("Pasta", 3.0F, 5, ""),
+                        new Food("Noodles", 3.0F, 1, ""),
+                        new Food("Sushi", 1.0F, 1, "")
                 )));
         restaurantNameTv.setText(order.getRestaurant().getName());
-        restaurantDescriptionTv.setText(order.getRestaurant().getDescription());
+        restaurantDescriptionTv.setText(order.getRestaurant().getAddress());
         adapter = new OrderAdapter(order);
         total.setText(String.valueOf(order.getTotal()) + "€");
         adapter.setOnItemDeletedListener(this);
