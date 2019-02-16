@@ -1,6 +1,9 @@
 package com.gdetra.depeat.models;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Food {
     private String name;
     private float price;
@@ -13,6 +16,13 @@ public class Food {
         this.price = price;
         this.quantity = quantity;
         this.urlImage = urlImage;
+    }
+
+    public Food(JSONObject jsonObject) throws JSONException {
+        this.name = jsonObject.getString("name");
+        this.price = (float)jsonObject.getDouble("price");
+        this.quantity = 0;
+        this.urlImage = jsonObject.getString("image_url");
     }
 
     public String getName() {

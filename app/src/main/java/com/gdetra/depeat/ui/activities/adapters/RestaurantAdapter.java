@@ -25,7 +25,7 @@ import java.util.List;
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
 
 
-
+    public static final String RESTAURANT_ID_KEY = "resId";
     private List<Restaurant> restaurantList;
     private boolean isGridLayoutSelected;
 
@@ -89,8 +89,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         @Override
         public void onClick(View v) {
-            if(restaurantList.get(getAdapterPosition()) != null){
+            Restaurant restaurant = restaurantList.get(getAdapterPosition());
+
+            if(restaurant != null){
                 Intent intent = new Intent(v.getContext(), ShopActivity.class);
+                intent.putExtra(RESTAURANT_ID_KEY, restaurant.getId());
                 v.getContext().startActivity(intent);
                 Log.i("Position", String.valueOf(getAdapterPosition()));
             }

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.Utils;
 import com.gdetra.depeat.models.Restaurant;
+import com.gdetra.depeat.services.RestController;
 import com.gdetra.depeat.ui.activities.adapters.RestaurantAdapter;
 import com.google.firebase.FirebaseApp;
 
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Response.Listener<String>, Response.ErrorListener {
 
     static {
         AppCompatDelegate.setDefaultNightMode(
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     RestaurantAdapter restaurantAdapter;
     RecyclerView.LayoutManager layoutManager;
     SharedPreferences prefs;
+    RestController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setSavedLayout(new LinearLayoutManager(this), isGridLayoutSelected);
         }
-
-        request();
+        controller = new RestController(this);
+        controller.getRequest(Restaurant.ENDPOINT, this, this);
     }
 
     @Override
@@ -114,39 +117,24 @@ public class MainActivity extends AppCompatActivity {
         restaurantsRV.setLayoutManager(layoutManager);
     }
 
-    private void request(){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://5ba19290ee710f0014dd764c.mockapi.io/api/v1/restaurant";
 
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        Log.d("mainM", response);
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Log.e(MainActivity.class.toString(), error.getMessage());
+        Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
+    }
 
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            for(int i = 0; i<jsonArray.length(); i++){
-                                Restaurant r = new Restaurant(jsonArray.getJSONObject(i));
-                                listRestaurants.add(r);
-                            }
-                            restaurantAdapter.setRestaurantList(listRestaurants);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("main", String.valueOf(error.networkResponse));
+    @Override
+    public void onResponse(String response) {
+        try {
+            JSONArray jsonArray = new JSONArray(response);
+            for(int i = 0; i<jsonArray.length(); i++){
+                listRestaurants.add(new Restaurant(jsonArray.getJSONObject(i)));
             }
-        });
-
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
+            restaurantAdapter.setRestaurantList(listRestaurants);
+        } catch (JSONException e) {
+            Log.e(MainActivity.class.toString(), e.getMessage());
+        }
     }
 }
 

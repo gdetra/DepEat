@@ -1,5 +1,6 @@
 package com.gdetra.depeat.models;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,10 +9,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Restaurant {
+    public static final String ENDPOINT = "restaurants";
     private String name;
     private String urlImage;
     private String address;
     private float minImport;
+    private String id;
     private List<Food> products;
 
     public Restaurant(String name, String urlImage, String address, float minImport) {
@@ -24,9 +27,16 @@ public class Restaurant {
 
     public Restaurant(JSONObject jsonRestaurant) throws JSONException {
         this.name = jsonRestaurant.getString("name");
+        this.id = jsonRestaurant.getString("id");
         this.address = jsonRestaurant.getString("address");
-        this.minImport = Float.parseFloat(jsonRestaurant.getString("min_order"));
+        this.minImport = (float)jsonRestaurant.getDouble("min_order");
         this.urlImage = jsonRestaurant.getString("image_url");
+        this.products = new ArrayList<>();
+        JSONArray array = jsonRestaurant.getJSONArray("products");
+        for(int i = 0; i < array.length(); i++){
+            this.products.add(new Food(array.getJSONObject(i)));
+        }
+
     }
 
 
@@ -83,5 +93,13 @@ public class Restaurant {
                 new Food("Food name", 3.0F, 0, ""),
                 new Food("Food name", 3.0F, 0, "")
         )));
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

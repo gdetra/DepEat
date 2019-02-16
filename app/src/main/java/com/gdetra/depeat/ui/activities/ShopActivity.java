@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,12 +15,19 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.models.Restaurant;
+import com.gdetra.depeat.services.RestController;
 import com.gdetra.depeat.ui.activities.adapters.FoodAdapter;
+import com.gdetra.depeat.ui.activities.adapters.RestaurantAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
-public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQuantityChangedListener, View.OnClickListener {
+public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQuantityChangedListener, View.OnClickListener, Response.Listener<String>, Response.ErrorListener {
     RecyclerView foodRv;
     FoodAdapter foodAdapter;
     Restaurant restaurant;
@@ -29,6 +37,8 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
     TextView totalTv;
     TextView minOrderTv;
     Button checkOutBtn;
+    String id;
+    RestController controller;
     double total = 0;
 
 
@@ -36,6 +46,9 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+        controller = new RestController(this);
+        id = getIntent().getStringExtra(RestaurantAdapter.RESTAURANT_ID_KEY);
+        controller.getRequest(Restaurant.ENDPOINT.concat("/").concat(id), this,this);
         foodRv = findViewById(R.id.food_rv);
         progressBar = findViewById(R.id.progress);
         restaurantNameTv = findViewById(R.id.restaurant_name);
@@ -44,17 +57,7 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
         minOrderTv = findViewById(R.id.min_order_tv);
         checkOutBtn = findViewById(R.id.checkout_btn);
         checkOutBtn.setOnClickListener(this);
-        restaurant = new Restaurant("Panucci","", "A little description of Panucci", 3.0F);
-        progressBar.setMax((int)restaurant.getMinImport()*100);
-        totalTv.setText(String.valueOf(total) + getString(R.string.euro));
-        minOrderTv.setText(String.valueOf(restaurant.getMinImport()) + getString(R.string.euro));
-        restaurantNameTv.setText(restaurant.getName());
-        restaurantDescriptionTv.setText(restaurant.getAddress());
-        foodAdapter = new FoodAdapter(restaurant);
-        foodAdapter.setOnQuantityChangedListener(this);
-        ((SimpleItemAnimator) foodRv.getItemAnimator()).setSupportsChangeAnimations(false);
-        foodRv.setAdapter(foodAdapter);
-        foodRv.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     @Override
@@ -109,5 +112,35 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
             Intent intent = new Intent(this, CheckoutActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            restaurant = new Restaurant(jsonObject);
+            setUI(restaurant);
+        } catch (JSONException e) {
+            Log.e(ShopActivity.class.toString(), e.getMessage());
+        }
+
+    }
+
+    private void setUI(Restaurant restaurant){
+        progressBar.setMax((int)restaurant.getMinImport()*100);
+        totalTv.setText(String.valueOf(total) + getString(R.string.euro));
+        minOrderTv.setText(String.valueOf(restaurant.getMinImport()) + getString(R.string.euro));
+        restaurantNameTv.setText(restaurant.getName());
+        restaurantDescriptionTv.setText(restaurant.getAddress());
+        foodAdapter = new FoodAdapter(restaurant);
+        foodAdapter.setOnQuantityChangedListener(this);
+        ((SimpleItemAnimator) foodRv.getItemAnimator()).setSupportsChangeAnimations(false);
+        foodRv.setAdapter(foodAdapter);
+        foodRv.setLayoutManager(new LinearLayoutManager(this));
     }
 }
