@@ -1,7 +1,11 @@
 package com.gdetra.depeat.ui.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +22,8 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.gdetra.depeat.R;
+import com.gdetra.depeat.Utils;
+import com.gdetra.depeat.models.Auth;
 import com.gdetra.depeat.models.Restaurant;
 import com.gdetra.depeat.services.RestController;
 import com.gdetra.depeat.ui.activities.adapters.FoodAdapter;
@@ -28,6 +34,8 @@ import org.json.JSONObject;
 
 
 public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQuantityChangedListener, View.OnClickListener, Response.Listener<String>, Response.ErrorListener {
+    private static final int LOGIN_REQUEST_CODE = 3000;
+    private static final int LOGIN_FOR_CHECKOUT_REQUEST_CODE = 3001;
     RecyclerView foodRv;
     FoodAdapter foodAdapter;
     Restaurant restaurant;
@@ -39,6 +47,8 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
     Button checkOutBtn;
     String id;
     RestController controller;
+    SharedPreferences prefs;
+    Menu menu;
     double total = 0;
 
 
@@ -46,9 +56,10 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+        prefs = getSharedPreferences(Utils.PACKAGE_NAME, Context.MODE_PRIVATE);
         controller = new RestController(this);
         id = getIntent().getStringExtra(RestaurantAdapter.RESTAURANT_ID_KEY);
-        controller.getRequest(Restaurant.ENDPOINT.concat("/").concat(id), this,this);
+        controller.getRequest(Restaurant.ENDPOINT.concat("/").concat(id), this, this);
         foodRv = findViewById(R.id.food_rv);
         progressBar = findViewById(R.id.progress);
         restaurantNameTv = findViewById(R.id.restaurant_name);
@@ -65,14 +76,32 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
         //Menu inflater is used to inject a menu inside this activity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        this.menu = menu;
+        if (prefs.getString(Auth.AUTH, null) != null) {
+            menu.findItem(R.id.login_menu).setTitle(getString(R.string.profile_fixed))
+                    .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            startActivity(new Intent(ShopActivity.this, ProfileActivity.class));
+                            return true;
+                        }
+                    });
+        }
+
         return true;
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.login_menu) {
-            startActivity(new Intent(this, LoginActivity.class));
-            return true;
+            if (prefs.getString(Auth.AUTH, null) != null) {
+                startActivity(new Intent(ShopActivity.this, ProfileActivity.class));
+                return true;
+            }else{
+                startActivityForResult(new Intent(this, LoginActivity.class), LOGIN_REQUEST_CODE);
+                return true;
+            }
         } else if (item.getItemId() == R.id.checkout_menu) {
             startActivity(new Intent(this, CheckoutActivity.class));
             return true;
@@ -81,26 +110,26 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateTotal(double item){
+    private void updateTotal(double item) {
         total += item;
         totalTv.setText(String.valueOf(total) + getString(R.string.euro));
     }
 
-    private void updateProgress(int progress){
+    private void updateProgress(int progress) {
         progressBar.setProgress(progress);
     }
 
     @Override
     public void onChange(double price) {
         updateTotal(price);
-        updateProgress((int)total * 100);
+        updateProgress((int) total * 100);
         tryEnableCheckoutBtn();
     }
 
-    private void tryEnableCheckoutBtn(){
-        if(total >= restaurant.getMinImport()){
+    private void tryEnableCheckoutBtn() {
+        if (total >= restaurant.getMinImport()) {
             checkOutBtn.setEnabled(true);
-        }else{
+        } else {
             checkOutBtn.setEnabled(false);
         }
     }
@@ -108,7 +137,30 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.checkout_btn){
+        if (v.getId() == R.id.checkout_btn) {
+            String jwt = prefs.getString(Auth.AUTH, null);
+            if (jwt != null) {
+                Intent intent = new Intent(this, CheckoutActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivityForResult(intent, LOGIN_FOR_CHECKOUT_REQUEST_CODE);
+            }
+        }
+    }
+ 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == LOGIN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            menu.findItem(R.id.login_menu).setTitle(getString(R.string.profile_fixed))
+                    .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            startActivity(new Intent(ShopActivity.this, ProfileActivity.class));
+                            return true;
+                        }
+                    });
+        } else if (requestCode == LOGIN_FOR_CHECKOUT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Intent intent = new Intent(this, CheckoutActivity.class);
             startActivity(intent);
         }
@@ -131,8 +183,8 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
 
     }
 
-    private void setUI(Restaurant restaurant){
-        progressBar.setMax((int)restaurant.getMinImport()*100);
+    private void setUI(Restaurant restaurant) {
+        progressBar.setMax((int) restaurant.getMinImport() * 100);
         totalTv.setText(String.valueOf(total) + getString(R.string.euro));
         minOrderTv.setText(String.valueOf(restaurant.getMinImport()) + getString(R.string.euro));
         restaurantNameTv.setText(restaurant.getName());

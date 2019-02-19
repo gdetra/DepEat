@@ -19,4 +19,8 @@ public class Utils {
     public static boolean isValidPhoneNumber(String phoneNumber){
         return PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber);
     }
+
+    public static boolean isValidUsername(String username){
+        return username.length() > 5;
+    }
 }

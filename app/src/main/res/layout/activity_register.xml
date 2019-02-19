@@ -38,10 +38,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
                 android:id="@+id/phone_reg_et"
-                android:hint="@string/phone_hint"
-                android:drawableLeft="@drawable/ic_phone_black_24dp"
+                android:hint="@string/user_hint"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:drawablePadding="5dp"/>
 
 

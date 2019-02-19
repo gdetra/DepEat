@@ -24,4 +24,6 @@
     <string name="confirm_question">Are you sure that you want to delete this item?</string>
     <string name="positive_text">Yes</string>
     <string name="nagative_text">No</string>
+    <string name="user_hint">Insert username</string>
+    <string name="profile_fixed">profile</string>
 </resources>
