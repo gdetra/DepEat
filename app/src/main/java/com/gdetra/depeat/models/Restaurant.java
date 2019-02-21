@@ -82,16 +82,16 @@ public class Restaurant {
 
     private void getData(){
         setProducts(new ArrayList<>(Arrays.asList(
-                new Food("Food name", 4.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, ""),
-                new Food("Food name", 3.0F, 0, "")
+                new Food("Food name", 4.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "",""),
+                new Food("Food name", 3.0F, 0, "","")
         )));
     }
 

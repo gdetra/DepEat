@@ -9,13 +9,15 @@ public class Food {
     private float price;
     private int quantity;
     private String urlImage;
+    private String id;
 
 
-    public Food(String name, float price, int quantity,String urlImage) {
+    public Food(String name, float price, int quantity,String urlImage, String id) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.urlImage = urlImage;
+        this.id = id;
     }
 
     public Food(JSONObject jsonObject) throws JSONException {
@@ -23,6 +25,7 @@ public class Food {
         this.price = (float)jsonObject.getDouble("price");
         this.quantity = 0;
         this.urlImage = jsonObject.getString("image_url");
+        this.id = jsonObject.getString("_id");
     }
 
     public String getName() {
@@ -64,5 +67,9 @@ public class Food {
 
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
+    }
+
+    public String getId() {
+        return id;
     }
 }

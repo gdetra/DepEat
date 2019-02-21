@@ -26,4 +26,5 @@
     <string name="nagative_text">No</string>
     <string name="user_hint">Insert username</string>
     <string name="profile_fixed">profile</string>
+    <string name="change">change</string>
 </resources>

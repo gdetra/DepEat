@@ -3,6 +3,7 @@ package com.gdetra.depeat.ui.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,8 +24,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.gdetra.depeat.R;
 import com.gdetra.depeat.Utils;
+import com.gdetra.depeat.broadcast.LoginReceiver;
 import com.gdetra.depeat.models.Auth;
 import com.gdetra.depeat.models.Restaurant;
+import com.gdetra.depeat.models.User;
 import com.gdetra.depeat.services.RestController;
 import com.gdetra.depeat.ui.activities.adapters.FoodAdapter;
 import com.gdetra.depeat.ui.activities.adapters.RestaurantAdapter;
@@ -32,9 +35,11 @@ import com.gdetra.depeat.ui.activities.adapters.RestaurantAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.gdetra.depeat.ui.activities.MainActivity.LOGIN_ACTION;
+
 
 public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQuantityChangedListener, View.OnClickListener, Response.Listener<String>, Response.ErrorListener {
-    private static final int LOGIN_REQUEST_CODE = 3000;
+    public static final int LOGIN_REQUEST_CODE = 3000;
     private static final int LOGIN_FOR_CHECKOUT_REQUEST_CODE = 3001;
     RecyclerView foodRv;
     FoodAdapter foodAdapter;
@@ -48,6 +53,7 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
     String id;
     RestController controller;
     SharedPreferences prefs;
+    LoginReceiver loginReceiver;
     Menu menu;
     double total = 0;
 
@@ -77,6 +83,8 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         this.menu = menu;
+        loginReceiver = new LoginReceiver(menu);
+        registerReceiver(loginReceiver, new IntentFilter(LOGIN_ACTION));
         if (prefs.getString(Auth.AUTH, null) != null) {
             menu.findItem(R.id.login_menu).setTitle(getString(R.string.profile_fixed))
                     .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -86,17 +94,17 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
                             return true;
                         }
                     });
+
+
         }
-
         return true;
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.login_menu) {
             if (prefs.getString(Auth.AUTH, null) != null) {
-                startActivity(new Intent(ShopActivity.this, ProfileActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             }else{
                 startActivityForResult(new Intent(this, LoginActivity.class), LOGIN_REQUEST_CODE);
@@ -139,7 +147,8 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
     public void onClick(View v) {
         if (v.getId() == R.id.checkout_btn) {
             String jwt = prefs.getString(Auth.AUTH, null);
-            if (jwt != null) {
+            String userId = prefs.getString(User.USER_ID, null);
+            if (jwt != null && userId != null) {
                 Intent intent = new Intent(this, CheckoutActivity.class);
                 startActivity(intent);
             } else {
@@ -148,19 +157,16 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
             }
         }
     }
- 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            menu.findItem(R.id.login_menu).setTitle(getString(R.string.profile_fixed))
-                    .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            startActivity(new Intent(ShopActivity.this, ProfileActivity.class));
-                            return true;
-                        }
-                    });
-        } else if (requestCode == LOGIN_FOR_CHECKOUT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            String jwt = data.getStringExtra(Auth.AUTH);
+            String userId = data.getStringExtra(User.USER_ID);
+            prefs.edit().putString(Auth.AUTH, jwt).apply();
+            prefs.edit().putString(User.USER_ID, userId).apply();
+        }
+        if (requestCode == LOGIN_FOR_CHECKOUT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Intent intent = new Intent(this, CheckoutActivity.class);
             startActivity(intent);
         }
@@ -194,5 +200,11 @@ public class ShopActivity extends AppCompatActivity implements FoodAdapter.OnQua
         ((SimpleItemAnimator) foodRv.getItemAnimator()).setSupportsChangeAnimations(false);
         foodRv.setAdapter(foodAdapter);
         foodRv.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(loginReceiver);
     }
 }

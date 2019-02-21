@@ -20,10 +20,13 @@ import com.gdetra.depeat.R;
 import com.gdetra.depeat.Utils;
 import com.gdetra.depeat.models.Auth;
 import com.gdetra.depeat.models.Login;
+import com.gdetra.depeat.models.User;
 import com.gdetra.depeat.services.RestController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.gdetra.depeat.ui.activities.MainActivity.LOGIN_ACTION;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, Response.Listener<String>, Response.ErrorListener {
     Button loginBtn;
@@ -99,7 +102,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
         Log.e(LoginActivity.class.toString(), error.getMessage());
         Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
     }
@@ -111,7 +113,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             loginAuth = new Login(jsonObject);
             Intent intent = new Intent();
             intent.putExtra(Auth.AUTH, loginAuth.getJwt());
+            intent.putExtra(User.USER_ID, loginAuth.getLoginUser().getId());
             setResult(Activity.RESULT_OK, intent);
+            sendBroadcast(new Intent(LOGIN_ACTION));
             finish();
             /*prefs.edit().putString(Auth.AUTH, loginAuth.getJwt()).apply();
             startActivity(new Intent(this,MainActivity.class));*/

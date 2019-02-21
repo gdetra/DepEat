@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/login_menu"
+        android:title="@string/login_text" />
+    <item android:id="@+id/checkout_menu"
+        android:title="@string/checkout"/>
     <item
+        android:title="@string/change"
         android:id="@+id/change_layout_btn"
         app:showAsAction="always"
         android:icon="@drawable/ic_apps_white_24dp"/>

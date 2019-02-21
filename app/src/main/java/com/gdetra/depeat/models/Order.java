@@ -3,6 +3,7 @@ package com.gdetra.depeat.models;
 import java.util.List;
 
 public class Order {
+    public final static String ENDPOINT = "orders";
     private Restaurant restaurant;
     private List<Food> products;
     private float total;
